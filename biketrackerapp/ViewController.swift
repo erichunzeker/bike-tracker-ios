@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     
     @IBAction func calculate(_ sender: Any) {
         
+        
         let currencyFormatter = NumberFormatter()
         currencyFormatter.usesGroupingSeparator = true
         currencyFormatter.numberStyle = .currency
@@ -30,13 +31,25 @@ class ViewController: UIViewController {
         let mpg = (Double)(mpginput.text!)
         let gas = (Double)(gasinput.text!)
         
-        let total = ((miles! * days! * 2) / mpg!) * gas!
+        if(miles != nil && days != nil && mpg != nil && gas != nil && days! <= 365) {
         
-        let priceString = currencyFormatter.string(from:       NSNumber(value: total))!
+            let total = ((miles! * days! * 2) / mpg!) * gas!
+            let priceString = currencyFormatter.string(from: NSNumber(value: total))!
+            savings.text = "you saved " + priceString + " by biking to work"
+        }
         
-        savings.text = "you saved " + priceString + " by biking to work"
+        else if(days != nil && days! > 365) {
+            savings.text = "there are only 365 days in a year"
+        }
+        
+        else {
+            savings.text = "invalid input"
+        }
+        
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         self.view.endEditing(true)
     }
     
